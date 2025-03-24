@@ -1,0 +1,52 @@
+from discord.ext import commands
+
+class StalkerCommands(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot 
+        self.Stalker = self.bot.get_cog("Stalker")
+
+    @commands.command(name="add_stalkee")
+    @commands.is_owner()
+    async def add_stalkee(self, ctx, member_mention:str):
+        Stalker = self.Stalker.guilds[ctx.guild.id]
+
+        member_id = int(member_mention[2:-1])
+        if member_id in Stalker.stalkee_list:
+            await ctx.send("해당 유저는 이미 리스트에 존재합니다.")
+            return
+        try:
+            Stalker.stalkee_list.append(member_id)
+            await ctx.send(f"{member_id}를 성공적으로 추가하였습니다.")
+        except:
+            await ctx.send(f"{member_id}를 추가하는 것을 실패하였습니다.")
+
+    
+    @commands.command(name="remove_stalkee")
+    @commands.is_owner()
+    async def remove_stalkee(self, ctx, member_mention:str):
+        Stalker = self.Stalker.guilds[ctx.guild.id]
+
+        member_id = int(member_mention[2:-1])
+        if member_id not in Stalker.stalkee_list:
+            await ctx.send("해당 유저는 리스트에 존재하지 않습니다.")
+
+        try:
+            Stalker.stalkee_list.remove(member_id)
+            await ctx.send(f"{member_id}를 성공적으로 제거하였습니다.")
+        except:
+            await ctx.send(f"{member_id}를 제거하는 것을 실패하였습니다.")
+
+    @commands.command(name="stalkee_list")
+    @commands.is_owner()
+    async def stalkee_list(self, ctx):
+        Stalker = self.Stalker.guilds[ctx.guild.id]
+        message = f"총 {len(Stalker.stalkee_list)} 명의 이름이 있습니다.\n"
+
+        for stalkee in Stalker.stalkee_list:
+            message += f"<@{stalkee}>\n"
+        message += "\n 끝."
+
+        await ctx.send(message)
+
+async def setup(bot):
+    await bot.add_cog(StalkerCommands(bot))
