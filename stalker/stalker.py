@@ -2,7 +2,7 @@ from discord.ext import commands
 
 class StalkerGuild():
     def __init__(self):
-        self.chat = None
+        self.channel= None
         self.stalkee_list = []
 
 class Stalker(commands.Cog):
@@ -12,11 +12,12 @@ class Stalker(commands.Cog):
     
     def add_guild(self, guild_id):
         if guild_id not in self.guilds:
-            print("성공적으로 추가 됨")
+            print(f"성공적으로 추가 됨 {guild_id}")
             self.guilds[guild_id] = StalkerGuild()
     
     def remove_guild(self, guild_id):
         if guild_id in self.guilds:
+            print(f"성공적으로 삭제 됨 {guild_id}")
             del self.guilds[guild_id] 
     
 async def setup(bot):

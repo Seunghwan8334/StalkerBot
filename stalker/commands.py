@@ -13,7 +13,7 @@ class StalkerCommands(commands.Cog):
         channel_id = int(channel_mention[2:-1])
         channel = ctx.guild.get_channel(channel_id)
         if channel:
-            Stalker.chat = channel_id
+            Stalker.channel = channel
             await ctx.send(f"{channel.mention}으로 설정하였습니다.")
         else:
             await ctx.send("해당 채널을 찾을 수 없습니다.")
