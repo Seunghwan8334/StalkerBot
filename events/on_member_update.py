@@ -15,8 +15,14 @@ class OnMemberUpdate(commands.Cog):
             return
         
         if before.id in Stalker.stalkee_list: 
+            
             if before.nick != after.nick: #닉네임 변경 감지
-                await Stalker.channel.send(f"{before.mention} 닉네임 변경됨: {before.nick} -> {after.nick}")
+                if before.nick is None:
+                    await Stalker.channel.send(f"{before.mention} 닉네임 변경됨: {before.display_name} -> {after.nick}")
+                elif after.nick is None:
+                    await Stalker.channel.send(f"{before.mention} 닉네임 변경됨: {before.nick} -> {after.display_name}")
+                else:
+                    await Stalker.channel.send(f"{before.mention} 닉네임 변경됨: {before.nick} -> {after.nick}")
                 return 
             
             if before.name != after.name: #이름 변경 감지

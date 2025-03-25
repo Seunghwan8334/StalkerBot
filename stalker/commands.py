@@ -33,9 +33,9 @@ class StalkerCommands(commands.Cog):
             return
         try:
             Stalker.stalkee_list.append(member_id)
-            await ctx.send(f"{member_id}를 성공적으로 추가하였습니다.")
+            await ctx.send(f"<@{member_id}>를 성공적으로 추가하였습니다.")
         except:
-            await ctx.send(f"{member_id}를 추가하는 것을 실패하였습니다.")
+            await ctx.send(f"<@{member_id}>를 추가하는 것을 실패하였습니다.")
 
     
     @commands.command(name="remove_stalkee")
@@ -52,9 +52,9 @@ class StalkerCommands(commands.Cog):
 
         try:
             Stalker.stalkee_list.remove(member_id)
-            await ctx.send(f"{member_id}를 성공적으로 제거하였습니다.")
+            await ctx.send(f"<@{member_id}>를 성공적으로 제거하였습니다.")
         except:
-            await ctx.send(f"{member_id}를 제거하는 것을 실패하였습니다.")
+            await ctx.send(f"<@{member_id}>를 제거하는 것을 실패하였습니다.")
 
     @commands.command(name="stalkee_list")
     @commands.has_permissions(administrator=True)
