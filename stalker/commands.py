@@ -5,9 +5,9 @@ class StalkerCommands(commands.Cog):
         self.bot = bot 
         self.Stalker = self.bot.get_cog("Stalker")
 
-    @commands.command(name="set_chat") 
+    @commands.command(name="set_channel") 
     @commands.has_permissions(administrator=True)
-    async def set_chat(self, ctx, channel_mention:str):
+    async def set_channel(self, ctx, channel_mention:str):
         Stalker = self.Stalker.guilds[ctx.guild.id] 
         
         channel_id = int(channel_mention[2:-1])
@@ -20,11 +20,11 @@ class StalkerCommands(commands.Cog):
 
 
     @commands.command(name="add_stalkee")
-    @commands.is_owner()
+    @commands.has_permissions(administrator=True)
     async def add_stalkee(self, ctx, member_mention:str):
         Stalker = self.Stalker.guilds[ctx.guild.id]
-        if Stalker.chat is None:
-            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_chat 채널맨션")
+        if Stalker.channel is None:
+            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_channel 채널맨션")
             return
         
         member_id = int(member_mention[2:-1])
@@ -39,11 +39,11 @@ class StalkerCommands(commands.Cog):
 
     
     @commands.command(name="remove_stalkee")
-    @commands.is_owner()
+    @commands.has_permissions(administrator=True)
     async def remove_stalkee(self, ctx, member_mention:str):
         Stalker = self.Stalker.guilds[ctx.guild.id]
-        if Stalker.chat is None:
-            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_chat 채널맨션")
+        if Stalker.channel is None:
+            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_channel 채널맨션")
             return
 
         member_id = int(member_mention[2:-1])
@@ -57,18 +57,18 @@ class StalkerCommands(commands.Cog):
             await ctx.send(f"{member_id}를 제거하는 것을 실패하였습니다.")
 
     @commands.command(name="stalkee_list")
-    @commands.is_owner()
+    @commands.has_permissions(administrator=True)
     async def stalkee_list(self, ctx):
         Stalker = self.Stalker.guilds[ctx.guild.id]
-        if Stalker.chat is None:
-            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_chat 채널맨션")
+        if Stalker.channel is None:
+            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_channel 채널맨션")
             return
 
         message = f"총 {len(Stalker.stalkee_list)} 명의 이름이 있습니다.\n"
 
         for stalkee in Stalker.stalkee_list:
             message += f"<@{stalkee}>\n"
-        message += "\n 끝."
+        message += "끝."
 
         await ctx.send(message)
 

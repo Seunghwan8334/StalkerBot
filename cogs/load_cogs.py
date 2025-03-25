@@ -2,6 +2,8 @@ from discord.ext import commands
 
 cogs = [
     "commands.admin_commands",
+    "commands.user_commands",
+    "commands.owner_commands",
 
     "cogs.commands",
 
@@ -10,7 +12,7 @@ cogs = [
 
     "events.message_events",
     "events.guild_events",
-    "events.command_errors"
+    "events.command_errors",
     "events.on_member_update"
 ]
 
