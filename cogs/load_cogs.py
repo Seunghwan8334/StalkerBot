@@ -11,6 +11,7 @@ cogs = [
     "events.message_events",
     "events.guild_events",
     "events.command_errors"
+    "events.on_member_update"
 ]
 
 async def load_cogs(bot):
