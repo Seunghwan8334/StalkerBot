@@ -5,11 +5,28 @@ class StalkerCommands(commands.Cog):
         self.bot = bot 
         self.Stalker = self.bot.get_cog("Stalker")
 
+    @commands.command(name="set_chat") 
+    @commands.has_permissions(administrator=True)
+    async def set_chat(self, ctx, channel_mention:str):
+        Stalker = self.Stalker.guilds[ctx.guild.id] 
+        
+        channel_id = int(channel_mention[2:-1])
+        channel = ctx.guild.get_channel(channel_id)
+        if channel:
+            Stalker.chat = channel_id
+            await ctx.send(f"{channel.mention}으로 설정하였습니다.")
+        else:
+            await ctx.send("해당 채널을 찾을 수 없습니다.")
+
+
     @commands.command(name="add_stalkee")
     @commands.is_owner()
     async def add_stalkee(self, ctx, member_mention:str):
         Stalker = self.Stalker.guilds[ctx.guild.id]
-
+        if Stalker.chat is None:
+            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_chat 채널맨션")
+            return
+        
         member_id = int(member_mention[2:-1])
         if member_id in Stalker.stalkee_list:
             await ctx.send("해당 유저는 이미 리스트에 존재합니다.")
@@ -25,6 +42,9 @@ class StalkerCommands(commands.Cog):
     @commands.is_owner()
     async def remove_stalkee(self, ctx, member_mention:str):
         Stalker = self.Stalker.guilds[ctx.guild.id]
+        if Stalker.chat is None:
+            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_chat 채널맨션")
+            return
 
         member_id = int(member_mention[2:-1])
         if member_id not in Stalker.stalkee_list:
@@ -40,6 +60,10 @@ class StalkerCommands(commands.Cog):
     @commands.is_owner()
     async def stalkee_list(self, ctx):
         Stalker = self.Stalker.guilds[ctx.guild.id]
+        if Stalker.chat is None:
+            await ctx.send("채팅창을 먼저 설정해주세요. \n 명령어: $set_chat 채널맨션")
+            return
+
         message = f"총 {len(Stalker.stalkee_list)} 명의 이름이 있습니다.\n"
 
         for stalkee in Stalker.stalkee_list:

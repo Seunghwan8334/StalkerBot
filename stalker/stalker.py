@@ -2,6 +2,7 @@ from discord.ext import commands
 
 class StalkerGuild():
     def __init__(self):
+        self.chat = None
         self.stalkee_list = []
 
 class Stalker(commands.Cog):
